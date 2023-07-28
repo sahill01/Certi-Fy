@@ -1,0 +1,59 @@
+<!-- template_selection.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Template Selection</title>
+    <!-- Include Axios library -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Select a Certificate Template</h1>
+    <div id="templates">
+        <!-- Display the list of templates here -->
+    </div>
+
+    <!-- Form to input recipient details -->
+    <form id="certificateForm">
+        <label for="recipientName">Recipient Name:</label>
+        <input type="text" id="recipientName" name="recipientName" required><br>
+
+        <label for="courseName">Course Name:</label>
+        <input type="text" id="courseName" name="courseName" required><br>
+
+        <label for="completionDate">Completion Date:</label>
+        <input type="date" id="completionDate" name="completionDate" required><br>
+
+        <!-- Hidden input field to store the selected template -->
+        <input type="hidden" id="selectedTemplate" name="selectedTemplate" value=""><br>
+
+        <button type="submit">Generate Certificate</button>
+    </form>
+
+    <script>
+        // Fetch the list of templates from the backend API
+        axios.get('/api/certificate-templates/')
+            .then(response => {
+                const templates = response.data;
+                const templatesDiv = document.getElementById('templates');
+
+                // Display the list of templates
+                templates.forEach(template => {
+                    const templateDiv = document.createElement('div');
+                    templateDiv.innerHTML = `
+                        <img src="${template.thumbnail}" alt="${template.name}" width="200">
+                        <button onclick="selectTemplate('${template.id}')">Select</button>
+                    `;
+                    templatesDiv.appendChild(templateDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching templates:', error);
+            });
+
+        // Function to set the selected template ID in the hidden input field
+        function selectTemplate(templateId) {
+            document.getElementById('selectedTemplate').value = templateId;
+        }
+    </script>
+</body>
+</html>
