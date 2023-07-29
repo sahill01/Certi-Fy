@@ -4,7 +4,7 @@ import CertificateTemplates from './certificateTemplates';
 const CertificateForm = () => {
   const [formData, setFormData] = useState({
     recipientName: '',
-    courseName: '',
+    description: '',
     completionDate: '',
     selectedTemplate: '',
   });
@@ -19,7 +19,7 @@ const CertificateForm = () => {
     e.preventDefault();
   
     try {
-      const response = await fetch('/api/generate_certificate/', {
+      const response = await fetch('/api/generate-certificate/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -30,12 +30,9 @@ const CertificateForm = () => {
       if (response.ok) {
         // Success! Certificate generated, handle response accordingly
         const pdfBlob = await response.blob();
-        // Use 'pdfBlob' to display the PDF or provide a download link to the user.
-        // For example, you can display the PDF in an iframe for the user to view.
         const pdfUrl = URL.createObjectURL(pdfBlob);
-        window.open(pdfUrl, '_blank'); // Opens the PDF in a new tab
+        window.open(pdfUrl, '_blank');
       } else {
-        // Handle error if certificate generation fails
         console.error('Certificate generation failed.');
       }
     } catch (error) {
@@ -47,9 +44,17 @@ const CertificateForm = () => {
     setSelectedTemplate(template);
     setFormData({ ...formData, selectedTemplate: template.id });
   };
+
+  // const templateOptions = [
+  //
+  // ];
   
   return (
     <form onSubmit={handleSubmit} className='certificateForm' id="createCertificate">
+      <h2>Choose a Certificate:</h2>
+      <div className="certificate-templates">
+          <CertificateTemplates onSelectTemplate={handleTemplateSelect} selectedTemplate={selectedTemplate} />
+      </div>
       <div>
         <h2>Enter Details</h2>
         <label htmlFor="recipientName">Recipient Name:</label>
@@ -62,13 +67,12 @@ const CertificateForm = () => {
         />
       </div>
       <div>
-        <label htmlFor="courseName">Course Name:</label>
-        <input
-          type="text"
-          id="courseName"
-          name="courseName"
-          value={formData.courseName}
-          onChange={handleChange}
+        <label htmlFor="description">Description:</label>
+        <textarea
+          id="description"
+          name="description"
+          value={formData.description}
+          onChange={handleChange} 
         />
       </div>
       <div>
@@ -80,10 +84,6 @@ const CertificateForm = () => {
           value={formData.completionDate}
           onChange={handleChange}
         />
-      </div>
-      <h2>Choose a Certificate:</h2>
-      <div className="certificate-templates">
-          <CertificateTemplates onSelectTemplate={handleTemplateSelect} selectedTemplate={selectedTemplate} />
       </div>
       <div className="card-actions">
         <button type="submit">Create Certificate</button>

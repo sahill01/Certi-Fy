@@ -9,4 +9,4 @@ class CertificateTemplateSerializer(serializers.ModelSerializer):
 class CertificateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Certificate
-        fields = '__all__'
+        fields = ['id', 'recipient_name', 'description', 'completion_date', 'selected_template', 'unique_code']

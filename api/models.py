@@ -13,7 +13,7 @@ class CertificateTemplate(models.Model):
     
 class Certificate(models.Model):
     recipient_name = models.CharField(max_length=100)
-    course_name = models.CharField(max_length=100)
+    description = models.TextField()
     completion_date = models.DateField()
     selected_template = models.ForeignKey(CertificateTemplate, on_delete=models.CASCADE)
     unique_code = models.CharField(max_length=100, unique=True)  # To store the unique code (JWT Token)

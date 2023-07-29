@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import CertificateForm from "./certificateForm"; // Import the CertificateForm component
+import CertificateForm from "./certificateForm";
 import { render } from "react-dom";
 import "../../static/css/index.css"
 import Navbar from "./Navbar";

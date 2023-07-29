@@ -31,12 +31,11 @@
 
     <script>
         // Fetch the list of templates from the backend API
-        axios.get('/api/certificate-templates/')
+        axios.get('/api/templates/')
             .then(response => {
                 const templates = response.data;
                 const templatesDiv = document.getElementById('templates');
 
-                // Display the list of templates
                 templates.forEach(template => {
                     const templateDiv = document.createElement('div');
                     templateDiv.innerHTML = `

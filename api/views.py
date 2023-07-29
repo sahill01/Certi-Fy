@@ -20,7 +20,7 @@ def generate_certificate(request):
     if request.method == 'POST':
         form_data = json.loads(request.body)
         recipient_name = form_data.get('recipientName')
-        course_name = form_data.get('courseName')
+        description = form_data.get('description')
         completion_date = form_data.get('completionDate')
         selected_template_id = form_data.get('selectedTemplate')
 
@@ -30,34 +30,29 @@ def generate_certificate(request):
         # Create a PDF document
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="{recipient_name}_certificate.pdf"'
-
-        # Create a SimpleDocTemplate
         doc = SimpleDocTemplate(response, pagesize=letter)
 
-        # Create a list to hold the flowables (content elements) of the document
         elements = []
 
         # Customize the content using the selected template information
         styles = getSampleStyleSheet()
         header_text = f'Certificate of Completion\n\n'
         recipient_text = f'This is to certify that {recipient_name}\nhas successfully completed the course:\n\n'
-        course_text = f'{course_name}\n\n'
+        description_text = f'{description}\n\n'
         completion_date_text = f'Completed on: {completion_date}\n\n'
         signature_text = f'Signature\nCourse Instructor'
 
         elements.append(Paragraph(header_text, styles['Title']))
         elements.append(Spacer(1, 12))
         elements.append(Paragraph(recipient_text, styles['Normal']))
-        elements.append(Paragraph(course_text, styles['Normal']))
+        elements.append(Paragraph(description_text, styles['Normal']))
         elements.append(Paragraph(completion_date_text, styles['Normal']))
         elements.append(Spacer(1, 48))
         elements.append(Paragraph(signature_text, styles['Normal'], alignment=TA_CENTER))
 
         # Add the template image to the certificate
-        template_image_path = selected_template.template_image.path  # Update this based on your model field
-        elements.append(Image(template_image_path, width=400, height=300))  # Adjust width and height as needed
-
-        # Build the document
+        template_image_path = selected_template.template_image.path
+        elements.append(Image(template_image_path, width=400, height=300)) 
         doc.build(elements)
 
         return response

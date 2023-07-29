@@ -9,8 +9,9 @@ const CertificateValidationForm = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Add your validation logic here and handle the form submission
-    // For example, you can use the certificateCode to validate the certificate.
+    
+    // validation logic here
+    
   };
 
   return (

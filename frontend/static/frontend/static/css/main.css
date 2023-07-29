@@ -198,6 +198,11 @@ nav {
     margin: 70px auto;
   }
 
+  textarea {
+    width: 98%;
+    height: 70px;
+  }
+
   .certificateForm label {
     display: block;
     font-weight: bold;

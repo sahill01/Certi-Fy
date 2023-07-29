@@ -6,7 +6,7 @@ const Home = () => {
     const createCertificateSection = document.getElementById('createCertificate');
     if (createCertificateSection) {
       const navbarHeight = document.getElementById('navbar').offsetHeight;
-      const buffer = 0; // Adjust this value as needed to create a suitable buffer
+      const buffer = 0;
       const scrollToOffset = createCertificateSection.getBoundingClientRect().top - navbarHeight - buffer;
 
       window.scrollBy({
